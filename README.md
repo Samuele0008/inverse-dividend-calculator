@@ -45,19 +45,16 @@ In the simulation, the target income is adjusted upward annually for inflation, 
 ## Repository Structure
 
 ```text
-Main/
+main/
 ├── index.html        # Calculator and Monte Carlo engine
 ├── methodology.html  # Methodology explanation
 ├── about.html        # Project information
 ├── blog.html         # Article index
-├── blog/             # Blog articles
-├── css/              # Stylesheets
-├── js/               # JavaScript modules
-├── tecnical/         # Privacy and cookie policies
 ├── llms.txt          # Text index of pages
 ├── sitemap.xml       # SEO sitemap
 ├── robots.txt        # Instructions for crawlers
-└── CNAME             # Custom domain
+├── CNAME             # GitHub Pages domain
+└── favicon/images    # Graphical assets and icons
 ```
 
 ## Local Development
@@ -65,21 +62,21 @@ Main/
 The site does not require packages, builds, or system dependencies. The interface is built with static HTML, CSS, and JavaScript.
 
 ```bash
-cd Main
+cd main
 python3 -m http.server 8000
 ```
 
 Then open http://localhost:8000/
 
-Alternatively, you can open `Main/index.html` directly in a browser.
+Alternatively, you can open `main/index.html` directly in a browser.
 
 ## Deploy
 
-The custom domain is configured in `Main/CNAME`. GitHub Pages must be enabled for the repository before the site can be deployed. GitHub Pages branch-based publishing supports the repository root or `/docs`; to publish from `Main/`, configure a GitHub Actions workflow or move the site to a supported publishing directory.
+The repository uses [GitHub Pages](https://pages.github.com/) with the custom domain configured in `main/CNAME`.
 
 To publish a change:
 
-1. Modify the files in the `Main/` directory.
+1. Modify the files in the `main/` directory.
 2. Push the changes to the branch configured for GitHub Pages.
 3. Wait for deployment to complete.
 

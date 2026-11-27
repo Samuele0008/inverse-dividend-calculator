@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTL9TKB503"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-DTL9TKB503');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon">
+  <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <title>Methodology | DCSimulator</title>
+  <meta name="description" content="How DCSimulator calculates dividend capital targets using net yield, tax assumptions, fees, inflation, dividend growth and Monte Carlo simulation.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://dcsimulator.me/methodology.html">
+  <meta property="og:site_name" content="DCSimulator">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Methodology | DCSimulator">
+  <meta property="og:description" content="How DCSimulator calculates dividend capital targets using net yield, tax assumptions, fees, inflation, dividend growth and Monte Carlo simulation.">
+  <meta property="og:url" content="https://dcsimulator.me/methodology.html">
+  <meta property="og:image" content="https://dcsimulator.me/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Methodology | DCSimulator">
+  <meta name="twitter:description" content="How DCSimulator calculates dividend capital targets using net yield, tax assumptions, fees, inflation, dividend growth and Monte Carlo simulation.">
+  <meta name="twitter:image" content="https://dcsimulator.me/og-image.png">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Methodology",
+      "url": "https://dcsimulator.me/methodology.html",
+      "description": "How DCSimulator calculates dividend capital targets using net yield, tax assumptions, fees, inflation, dividend growth and Monte Carlo simulation.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "DCSimulator",
+        "url": "https://dcsimulator.me/"
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/cookie-consent.css">
+  <link rel="stylesheet" href="css/article-ui-enhanced.css">
+  <style>
+    .methodology-page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(236, 231, 223, 0.8);
+      margin: 0 -20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #1a1a1a;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: var(--gold);
+    }
+
+    .nav-main {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav-main a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #666;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-main a:hover,
+    .nav-main a.active {
+      color: #1a1a1a;
+    }
+
+    .nav-main a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .hero {
+      max-width: 1280px;
+      margin: 16px auto 28px;
+      padding: clamp(26px, 4vw, 48px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 86% 12%, rgba(201, 168, 76, 0.18), transparent 30%),
+        radial-gradient(circle at 14% 20%, rgba(56, 168, 157, 0.12), transparent 28%),
+        linear-gradient(155deg, rgba(255, 255, 255, 0.96), rgba(248, 244, 236, 0.96));
+      box-shadow: var(--shadow-strong);
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+      gap: 24px;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    .hero-copy h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(34px, 5vw, 62px);
+      font-weight: 700;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      margin: 0 0 18px;
+      color: #1a1a1a;
+      max-width: 12ch;
+    }
+
+    .hero-copy p {
+      font-size: 17px;
+      color: #4f5a6a;
+      max-width: 66ch;
+      line-height: 1.84;
+      margin-bottom: 0;
+    }
+
+    .methodology-eyebrow {
+      display: inline-flex;
+      margin-bottom: 14px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      min-height: 48px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #c9a84c 0%, #b89436 100%);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(201, 168, 76, 0.24);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(201, 168, 76, 0.34);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.72);
+      border-color: rgba(201, 168, 76, 0.24);
+      color: #1a1a1a;
+      box-shadow: 0 8px 18px rgba(24, 24, 24, 0.06);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: rgba(201, 168, 76, 0.42);
+      color: #1a1a1a;
+    }
+
+    .hero-panel {
+      border: 1px solid rgba(201, 168, 76, 0.14);
+      border-radius: 18px;
+      padding: 22px;
+      background: linear-gradient(160deg, rgba(18, 26, 37, 0.96), rgba(36, 31, 24, 0.94));
+      color: #f6f8fb;
+      box-shadow: 0 20px 38px rgba(19, 23, 28, 0.22);
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .panel-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .panel-label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ecd18b;
+      margin-bottom: 12px;
+    }
+
+    .panel-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .panel-list li {
+      color: #d8e2f1;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .panel-list strong {
+      color: #fff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat-card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .stat-card span {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.18);
+      color: #f5d98d;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .stat-card p {
+      margin: 0;
+      font-size: 13px;
+      color: #d0dcec;
+      line-height: 1.55;
+    }
+
+    .content {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 0 40px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      background:
+        radial-gradient(circle at 88% 12%, rgba(56, 168, 157, 0.06), transparent 28%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(250, 247, 242, 0.92));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(22px, 3vw, 34px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(26px, 3.5vw, 42px);
+      font-weight: 700;
+      line-height: 1.12;
+      margin-bottom: 18px;
+      color: #1a1a1a;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: #4f5a6a;
+      line-height: 1.88;
+      margin-bottom: 16px;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .formula-card {
+      padding: 22px;
+      border-radius: 16px;
+      background: linear-gradient(155deg, #fdfbf7, #f5efe3);
+      border: 1px solid rgba(201, 168, 76, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .formula-label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #8a6a16;
+      margin-bottom: 12px;
+    }
+
+    .formula {
+      background: #fff;
+      border: 1px solid rgba(201, 168, 76, 0.28);
+      border-left: 4px solid var(--gold);
+      padding: 18px 20px;
+      border-radius: 12px;
+      color: #1a1a1a;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.65;
+      margin: 0 0 14px;
+    }
+
+    .formula-note {
+      margin: 0;
+      color: #5e697a;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: linear-gradient(150deg, #ffffff 0%, #faf8f2 100%);
+      padding: 24px;
+      border: 1px solid rgba(201, 168, 76, 0.14);
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(24, 24, 24, 0.05);
+    }
+
+    .card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      font-size: 15px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(201, 168, 76, 0.16);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .step span {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #1a1a1a;
+      background: linear-gradient(145deg, rgba(201, 168, 76, 0.32), rgba(255, 255, 255, 0.95));
+      border: 1px solid rgba(201, 168, 76, 0.24);
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #1a1a1a;
+      font-family: "Inter", sans-serif;
+    }
+
+    .step p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .cta-section {
+      max-width: 1240px;
+      margin: 0 auto 96px;
+      padding: clamp(28px, 4vw, 46px);
+      background: linear-gradient(135deg, #161616, #343434);
+      color: #fff;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .cta-section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      max-width: 780px;
+      margin: 0 auto 28px;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.8;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .footer {
+      background: #fff;
+      border-top: 1px solid #f0f0f0;
+      padding: 60px 40px;
+      margin-top: 100px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section li {
+      margin-bottom: 12px;
+    }
+
+    .footer-section a {
+      text-decoration: none;
+      color: #666;
+      font-size: 13px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #1a1a1a;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #f0f0f0;
+      padding-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #999;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-top {
+        padding: 18px 20px;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .nav-main {
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .hero,
+      .content,
+      .cta-section {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-top">
+      <a href="index.html" class="logo">DCSimulator</a>
+      <nav class="nav-main" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="methodology.html" class="active" aria-current="page">Methodology</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="methodology-page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="article-eyebrow methodology-eyebrow">Methodology</p>
+        <h1>How the Dividend Capital Model Works</h1>
+        <p>DCSimulator starts from your income target, converts yield into actual after-tax cash flow, and then stress-tests the path with inflation and dividend-growth assumptions. The output is a planning range, not a false precision number.</p>
+        <div class="hero-actions">
+          <a href="index.html" class="btn btn-secondary">Back to calculator</a>
+          <a href="#core-model" class="btn btn-primary">Explore the model</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Methodology highlights">
+        <div class="panel-card">
+          <span class="panel-label">At a glance</span>
+          <ul class="panel-list">
+            <li><strong>Net yield first:</strong> taxes and fees are deducted before the target is calculated.</li>
+            <li><strong>Long-term realism:</strong> inflation and dividend growth shape the projection.</li>
+            <li><strong>Risk-aware output:</strong> P75 and P90 help you plan with a buffer.</li>
+          </ul>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>1</span>
+            <strong>Formula first</strong>
+            <p>Required capital is derived from the income target and net yield.</p>
+          </div>
+          <div class="stat-card">
+            <span>2</span>
+            <strong>Real-world inputs</strong>
+            <p>Taxes, fees and inflation are built into the model, not added later.</p>
+          </div>
+          <div class="stat-card">
+            <span>3</span>
+            <strong>Range over guesswork</strong>
+            <p>The simulation shows how outcomes shift across thousands of scenarios.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="content">
+      <section class="section" id="core-model">
+        <h2>Core Idea</h2>
+        <div class="section-grid">
+          <div>
+            <p>The simulator works backward from your income target. Instead of asking what a portfolio might earn, it asks how much capital you need to produce a chosen monthly cash flow. That makes the output useful for planning, because the answer is tied to the outcome you care about.</p>
+            <p>The key input is <strong>net yield</strong>, not headline yield. Gross yield is reduced by taxes and fund fees, so the cash you actually keep is lower than what screeners usually show. Using gross yield alone can materially understate the capital required.</p>
+          </div>
+          <div class="formula-card">
+            <span class="formula-label">Key equation</span>
+            <div class="formula">Required Capital = Annual Income Target ÷ Net Yield</div>
+            <p class="formula-note">The same target can require very different capital levels depending on tax rate, expense ratio and the yield you can realistically sustain.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>What the Model Includes</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Taxes and Fees</h3>
+            <p>Taxes reduce the dividend income that reaches your account, while expense ratios reduce portfolio efficiency. Both directly increase the capital you need.</p>
+          </div>
+          <div class="card">
+            <h3>Inflation</h3>
+            <p>Income targets are adjusted over time so the plan preserves purchasing power instead of assuming today’s euro or dollar will be worth the same in the future.</p>
+          </div>
+          <div class="card">
+            <h3>Dividend Growth</h3>
+            <p>Companies can raise payouts over time, so the model lets dividend income grow rather than treating payouts as flat forever.</p>
+          </div>
+          <div class="card">
+            <h3>Monte Carlo Simulation</h3>
+            <p>Thousands of randomized scenarios are generated to show a distribution of possible outcomes. That helps capture uncertainty instead of hiding it.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>How the Simulation Is Built</h2>
+        <div class="steps">
+          <article class="step">
+            <span>01</span>
+            <div>
+              <h3>Set the income goal</h3>
+              <p>The calculator starts with the monthly cash flow you want to receive and converts it into an annual target.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span>02</span>
+            <div>
+              <h3>Convert to net yield</h3>
+              <p>Taxes and fund costs are deducted so the model works with what actually lands in your account, not the headline yield.</p>
+            </div>
+          </article>
+          <article class="step">
+            <span>03</span>
+            <div>
+              <h3>Stress the assumptions</h3>
+              <p>Dividend growth, inflation and random variation are layered into many scenarios to expose both upside and downside paths.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>How to Use the Output</h2>
+        <p>The median result is helpful as a baseline, but planning usually needs a buffer. That is why the calculator highlights multiple percentiles, including more conservative outcomes. P75 is a practical planning anchor, while P90 is a stronger stress test.</p>
+        <p>Use the result to compare scenarios, test different tax rates, and see how much capital is needed if your yield or growth assumptions change. The point is to make the tradeoffs visible before you commit capital.</p>
+      </section>
+    </div>
+
+    <section class="cta-section">
+      <h2>Run Your Scenario</h2>
+      <p>Use the calculator to test your monthly income target, net yield assumptions, and time horizon in a way that reflects real-world uncertainty.</p>
+      <div class="cta-actions">
+        <a href="index.html" class="btn btn-primary">Open Calculator</a>
+        <a href="blog/article-dividend-basics.html" class="btn btn-secondary">Read the basics</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="index.html">Simulator</a></li>
+          <li><a href="blog.html">Blog & Guides</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="blog/article-monte-carlo-Percentiles.html">Monte Carlo Guide</a></li>
+          <li><a href="blog/article-dividend-basics.html">Beginner Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="tecnical/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="tecnical/cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="tecnical/README.md">Project Notes</a></li>
+          <li><a href="about.html#sezione-mail">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024-2026 Dividend Capital Simulator. All rights reserved.</p>
+      <p>Built with data. Designed for execution.</p>
+    </div>
+  </footer>
+
+  <script src="js/cookie-consent.js"></script>
+</body>
+</html>

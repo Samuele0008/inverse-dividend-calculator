@@ -1,0 +1,33 @@
+# DCSimulator
+
+> Dividend income calculator: estimate how much capital you need to live off dividends after tax. Monte Carlo includes fees, inflation and dividend growth.
+
+## Main Pages
+- [Home](https://dcsimulator.me/): Inverse dividend calculator — enter your desired monthly income and get the required capital, adjusted for taxes, fund fees, inflation and dividend growth, with Monte Carlo simulation (P10–P90 scenario bands).
+- [Methodology](https://dcsimulator.me/methodology.html): How the model works — net yield formula, tax/fee/inflation treatment, and how the Monte Carlo simulation generates percentile-based outcomes.
+- [Blog](https://dcsimulator.me/blog.html): Index of dividend investing guides, FIRE case studies and ETF comparisons.
+- [About](https://dcsimulator.me/about.html): Project background, multi-country tax modeling (US withholding + local rates for IT/ES/FR/NL/UK/DE), and a free dividend-tracking spreadsheet template.
+
+## Blog Articles
+- [Dividend Investing for Beginners](https://dcsimulator.me/blog/article-dividend-basics.html): Dividend yield, payout safety, growth trajectories, and quality criteria before sizing a portfolio.
+- [Is a Dividend Safe? Payout Ratio & Cut Risk](https://dcsimulator.me/blog/article-dividend-safety-payout-ratio.html): Payout ratio vs. free cash flow coverage, red flags, and a checklist to stress-test income plans.
+- [Dividend Snowball: DRIP Compounding Over 30 Years](https://dcsimulator.me/blog/article-drip-dividend-snowball.html): How $10K becomes $1M+ through automatic dividend reinvestment — the psychology and math of the snowball effect.
+- [How Much Capital for $500–$2,000 Monthly?](https://dcsimulator.me/blog/article-dividend-amounts.html): Required capital across three yield scenarios and how savings rate impacts the timeline.
+- [$1,000/Month Case Study](https://dcsimulator.me/blog/article-1000-dividends.html): Required capital, yield assumptions, and safety margins for the most common dividend income goal.
+- [$100,000/Year Dividend Income](https://dcsimulator.me/blog/article-100k-dividends.html): Capital requirements for six-figure annual dividend income, including taxes, inflation, and stress testing.
+- [Best Dividend ETFs 2026](https://dcsimulator.me/blog/article-best-dividend-etfs.html): SCHD vs VYM vs DGRO vs JEPI — yield, fees, dividend growth, and portfolio fit.
+- [Dividend Yield vs Capital Growth](https://dcsimulator.me/blog/article-yield-vs-growth.html): Head-to-head comparison of historical returns, tax efficiency, and timeline analysis.
+- [FIRE Calculator Guide: Reading Percentiles](https://dcsimulator.me/blog/Page2.html): How to interpret Monte Carlo simulation outputs and scenario bands (P10–P90) for allocation decisions.
+- [From Zero to $1,000/Month Roadmap](https://dcsimulator.me/blog/Page.html): Step-by-step roadmap with milestones, guardrails, and a savings-rate-based timeline.
+
+## Italian-Language Articles
+- [Vivere di Rendita in Italia: 500 euro/mese](https://dcsimulator.me/blog/article-vivere-rendita-500-euro.html): Calcolo netto con tasse al 26%, inflazione e DGR per una rendita di 500 €/mese.
+- [ETF Accumulo vs Distribuzione (Italia)](https://dcsimulator.me/blog/article-etf-accumulo-vs-distribuzione.html): Differenze, impatto fiscale, compounding e strategia in due fasi per passare dall'accumulo alla rendita.
+
+## Key Topics
+- Inverse dividend/capital calculation (income target → required capital)
+- Net yield vs gross yield
+- Multi-country dividend tax modeling (US withholding + local rates)
+- Monte Carlo scenario analysis (P10–P90 percentile bands)
+- Dividend growth, inflation and expense ratio modeling
+- Dividend ETF comparison and FIRE planning

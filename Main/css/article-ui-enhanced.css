@@ -1,0 +1,324 @@
+/* Enhanced Article UI Components for DCSimulator */
+
+/* 1. Featured Snippet Card (Position #0 Target) */
+.featured-snippet-box {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #f8fafc;
+  padding: 32px;
+  border-radius: 12px;
+  border-left: 5px solid #c9a84c;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  margin: 36px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-snippet-box::before {
+  content: "POSITION #0 QUICK ANSWER";
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #c9a84c;
+  background: rgba(201, 168, 76, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.featured-snippet-box h2, .featured-snippet-box h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  padding-right: 180px;
+}
+
+.featured-snippet-box p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+
+.featured-snippet-box p strong {
+  color: #facc15;
+  font-weight: 700;
+}
+
+.featured-snippet-box ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+}
+
+.featured-snippet-box li {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.featured-snippet-box li strong {
+  color: #38bdf8;
+}
+
+/* 2. Mathematical Formula Card */
+.formula-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 24px;
+  margin: 32px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.formula-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #c9a84c;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formula-display {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+.formula-explanation {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* 3. Interactive Calculator Widget */
+.calc-widget-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 32px;
+  margin: 40px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.calc-widget-header {
+  margin-bottom: 24px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 16px;
+}
+
+.calc-widget-header h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.calc-widget-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+@media (max-width: 768px) {
+  .calc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calc-form-group {
+  margin-bottom: 18px;
+}
+
+.calc-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.calc-form-group select, .calc-form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.calc-form-group select:focus, .calc-form-group input:focus {
+  border-color: #c9a84c;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+
+.calc-results-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.calc-result-main {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.calc-result-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.calc-result-value {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 8px 0;
+}
+
+.calc-result-sub {
+  font-size: 13px;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.calc-details-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calc-detail-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #475569;
+}
+
+.calc-detail-item strong {
+  color: #0f172a;
+}
+
+/* 4. Financial Disclaimer Card */
+.financial-disclaimer-card {
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 40px 0 20px 0;
+}
+
+.disclaimer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #d48806;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.financial-disclaimer-card p {
+  font-size: 13px;
+  color: #595959;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 5. Downloadable Asset Card (Google Sheet / Dividend Tracker) */
+.asset-download-card {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  margin: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 8px 24px rgba(4, 120, 87, 0.2);
+}
+
+@media (max-width: 768px) {
+  .asset-download-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.asset-download-info h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.asset-download-info p {
+  font-size: 14px;
+  color: #a7f3d0;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.asset-download-btn {
+  background: #facc15;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.asset-download-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
